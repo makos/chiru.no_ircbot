@@ -4,12 +4,24 @@
 from lxml import html
 import requests
 
-def now_playing():
-	page = requests.get('http://chiru.no')
-	tree = html.fromstring(page.text)
+def get_current_data():
+	page = requests.get('http://chiru.no/api.txt')
+	page.encoding='utf-8'
+	page = page.text.split('{}')
+	data = page[:-1]
+	# print(data[0])
+	return data
 
-	nowplaying = tree.xpath('//div[@id="np"]/text()')
-	return nowplaying[0]
+def now_playing():
+	np = get_current_data()
+	return np[0]
+
+def upcoming():
+	next = get_current_data()
+	if next[1] == '':
+		return 'random'
+	else:
+		return next[1]
 
 def stats():
 	page = requests.get('http://chiru.no')
@@ -19,19 +31,11 @@ def stats():
 	
 	for x in range(slist.count('')):
 		slist.remove('')
-	
-	statlist = []
-	for string in slist:
-		statlist.append(' '.join(string.split()))
+
+	statlist = [' '.join(string.split()) for string in slist]
 	
 	return statlist
 
-def upcoming():
-	page = requests.get('http://chiru.no')
-	tree = html.fromstring(page.text)
-	next = tree.xpath('//span[@id="upcoming"]/text()')
-
-	if len(next) > 0:
-		return next[0]
-	else:
-		return 'random'
+if __name__ == '__main__':
+	print(get_current_data())
+	print(stats())

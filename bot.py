@@ -9,7 +9,7 @@ from sys import exit
 import scrape
 
 CHANNELS = ("#8/a/", "#/jp/radio")
-
+#
 def nm_to_nick(mask):
     """Converts nickmask to nick"""
 
