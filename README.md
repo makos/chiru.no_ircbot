@@ -1,4 +1,4 @@
-# chiru.no_ircbot
+# chiru.no IRC bot 
 
 Requires<br>
 IRC library https://bitbucket.org/jaraco/irc<br>
